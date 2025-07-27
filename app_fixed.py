@@ -1,15 +1,14 @@
 # app.py
 
+import os
 from flask import Flask, request
 import requests
 
 app = Flask(__name__)
 
-# ⚙️ استخدم توكن التحقق نفسه الذي ستضعه في Meta Developer Console
-VERIFY_TOKEN = 'my_secure_token'
-
-# ✅ ضع هنا توكن الصفحة الحقيقي الذي حصلت عليه من Graph API
-PAGE_ACCESS_TOKEN = 'EAAr4ed2A8oQBPJ82tGy1c6SIOwOZAzOt7qXYObIHbiEjZCa09ipd9Nt67i9ZA2L7wxjuK5Vj9MNZAgYgJDhLFjfpcltgzdYJieQ2ZA9DmNUyYobjyUvHhLEEA9CgtTgn4PT39X42IzOyZCaYZBETLfjZBVK8KRfLZCnRQat5iXXN2j8Upm73N610tp7M71uwLzcwmnZAy2EDZBymaK9imfUZCty9ApMqmZAZBTv18jZCLZAcZCtrANGU7KORBJyyLVhkIojCF'
+# ✅ استدعاء المتغيرات من البيئة (Render Environment Variables)
+VERIFY_TOKEN = os.getenv('VERIFY_TOKEN')
+PAGE_ACCESS_TOKEN = os.getenv('PAGE_ACCESS_TOKEN')
 
 # ✅ هذا المسار يستخدمه فيسبوك للتحقق من التوكن عند ربط الـ Webhook
 @app.route('/', methods=['GET'])
@@ -41,6 +40,6 @@ def send_message(recipient_id, text):
     if response.status_code != 200:
         print('❌ خطأ في الإرسال:', response.text)
 
-# ✅ تشغيل الخادم محليًا أو على الإنترنت (Render / Replit / Glitch)
+# ✅ تشغيل الخادم على الإنترنت (مثل Render)
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
